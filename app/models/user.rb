@@ -8,7 +8,7 @@ class User < ApplicationRecord
   def self.currently_online
     server = ActionCable.server
     users = ActionCable.server.connections.map do |conn|
-      decoded = Base64.decode64 conn.connection_identifier
+      decoded = Base64.decode64(conn.connection_identifier) # gid://current-user-rails/User/1
       user_id = decoded.split('/').last
       User.find(user_id)
     end
